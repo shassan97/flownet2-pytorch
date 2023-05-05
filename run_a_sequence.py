@@ -68,4 +68,8 @@ if __name__ == '__main__':
         
         # For pool boiling experimental data, which has 2184 images per input directory
         if (i+1)%91 == 0:
-            print(f"Step {i/91} of 24 completed")
+            print(f"Step {i//91} of {len(filelist)//91} completed")
+    print(f"Inference for folder {input_dir} saved in folder {output_dir}")
+    print("\n")
+    print("#"*40)
+    print("\n\n")
