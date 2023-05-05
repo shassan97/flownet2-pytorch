@@ -2,8 +2,8 @@ import torch
 import numpy as np
 import argparse
 
-from Networks.FlowNet2 import FlowNet2  # the path is depended on where you create this module
-from frame_utils import read_gen  # the path is depended on where you create this module
+from models import FlowNet2  # the path is depended on where you create this module
+from utils.frame_utils import read_gen  # the path is depended on where you create this module
 
 if __name__ == '__main__':
     # obtain the necessary args for construct the flownet framework
@@ -16,12 +16,12 @@ if __name__ == '__main__':
     # initial a Net
     net = FlowNet2(args).cuda()
     # load the state_dict
-    dict = torch.load("/home/hjj/PycharmProjects/flownet2_pytorch/FlowNet2_checkpoint.pth.tar")
+    dict = torch.load("FlowNet2_checkpoint.pth.tar")
     net.load_state_dict(dict["state_dict"])
 
     # load the image pair, you can find this operation in dataset.py
-    pim1 = read_gen("/home/hjj/flownet2-master/data/FlyingChairs_examples/0000007-img0.ppm")
-    pim2 = read_gen("/home/hjj/flownet2-master/data/FlyingChairs_examples/0000007-img1.ppm")
+    pim1 = read_gen("/share/crsp/lab/ai4ts/sheikhh1/PoolBoilingExperimentalData/50W/PNG/50W000050.jpg")
+    pim2 = read_gen("/share/crsp/lab/ai4ts/sheikhh1/PoolBoilingExperimentalData/50W/PNG/50W000051.jpg")
     images = [pim1, pim2]
     images = np.array(images).transpose(3, 0, 1, 2)
     im = torch.from_numpy(images.astype(np.float32)).unsqueeze(0).cuda()
@@ -42,4 +42,4 @@ if __name__ == '__main__':
 
 
     data = result.data.cpu().numpy().transpose(1, 2, 0)
-    writeFlow("/home/hjj/flownet2-master/data/FlyingChairs_examples/0000007-img.flo", data)
+    writeFlow("/share/crsp/lab/ai4ts/sheikhh1/flow.flo", data)
